@@ -1,0 +1,188 @@
+{
+	// Place your snippets for vba here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+	"New property":{
+		"prefix": "prop",
+		"body": [
+			"Private p${1:name} as ${2:type}",
+			"",
+			"Public Property Get ${1:name} () as ${2:type}",
+			"    ${1:name} = p${1:name}",
+			"End Property",
+			"",
+			"Public Property Let ${1:name} (ByVal Value as ${2:type})",
+			"    p${1:name} = Value",
+			"End Property",
+		],
+		"description": "Creates a new property."
+	},
+
+	"New property object":{
+		"prefix": "propo",
+		"body": [
+			"Private p${1:name} as ${2:type}",
+			"",
+			"Public Property Get ${1:name} () as ${2:type}",
+			"    Set ${1:name} = p${1:name}",
+			"End Property",
+			"",
+			"Public Property Let ${1:name} (Byref Value as ${2:type})",
+			"    Set p${1:name} = Value",
+			"End Property",
+		],
+		"description": "Creates a new object property."
+	},
+
+	"Readonly class object property": {
+		"prefix" : "proproo",
+		"body": [
+			"Private p${1:name} as ${2:type}",
+			"",
+			"Public Property Get ${1:name} () as ${2:type}",
+			"    Set ${1:name} = p${1:name}",
+			"End Property",
+		],
+		"description": "Creates a new readonly object property"
+	},
+
+	"Readonly class property": {
+		"prefix" : "propro",
+		"body": [
+			"Private p${1:name} as ${2:type}",
+			"",
+			"Public Property Get ${1:name} () as ${2:type}",
+			"    ${1:name} = p${1:name}",
+			"End Property",
+		],
+		"description": "Creates a new readonly property"
+	},
+
+	"New function declaration" : {
+		"prefix" : "func",
+		"body": [
+			"' Info: ${5}",
+			"${1:scope} Function ${2:name}(${3}) As ${4:type}",
+			"",
+			"    Const MethodName = \"${2:name}\"",
+			"    Exception.NotImplementedException vbNullString, ModuleName & \".\" & MethodName",
+			"",
+			"End Function"
+		],
+		"description": "Create a new function"
+	},
+
+	"New sub declaration" : {
+		"prefix" : "sub",
+		"body": [
+			"' Info: ${4}",
+			"${1:scope} Sub ${2:name}(${3})",
+			"",
+			"    Const MethodName = \"${2:name}\"",
+			"    Exception.NotImplementedException vbNullString, ModuleName & \".\" & MethodName",
+			"",
+			"End Sub"
+		],
+		"description": "Create a new subroutine"
+	},
+
+	"New test sub declaration" : {
+		"prefix" : "tests",
+		"body": [
+			"$Private Sub ${2:name}()",
+			"",
+			"    On Error GoTo ErrHandler",
+			"    Const MethodName = \"${2:name}\"",
+			"    Exception.NotImplementedException vbNullString, GetSig(MethodName)",
+			"",
+			"	' Arrange",
+			"",
+			"	' Act",
+			"",
+			"	' Assert"
+			"",
+			"    Exit Sub",
+			"ErrHandler:",
+			"    ExUnit.TestFailRunTime GetSig(MethodName)",
+			"",
+			"End Sub"
+		],
+		"description": "Create a new subroutine"
+	},
+
+	"New test sub with expected error" : {
+		"prefix" : "testerr",
+		"body": [
+			"$Private Sub ${1:name}()",
+			"",
+			"    On Error GoTo ErrHandler",
+			"    Const ExpectedError As Long = ${2:errCode}",
+			"    Const MethodName = \"${1:name}\"",
+			"    Exception.NotImplementedException vbNullString, GetSig(MethodName)",
+			"",
+			"	' Arrange",
+			"",
+			"	' Act",
+			"",
+			"	' Assert"
+			"",
+			"ErrHandler:",
+			"    ExUnit.IsException ExpectedError, Err.Number, GetSig(MethodName)",
+			"",
+			"End Sub"
+		],
+		"description": "Create a new subroutine with error handler and expected error."
+	},
+
+	"Nothing check" : {
+		"prefix" : "ifnull",
+		"body": [
+			"If ${1:name} Is Nothing Then",
+			"    Golem.Exception.ArgumentNullException \"${1:name}\", ClassName & \".\" & MethodName ",
+			"End If",
+		],
+		"description": "Creates if-statement which checks if object is nothing."
+	},
+
+	"Initialize method" : {
+		"prefix" : "init",
+		"body": [
+			"Private pInit as Boolean",
+			"",
+			"Public Sub Init(${1})",
+			"",
+			"    Const MethodName = \"Init\"",
+			"",
+			"    If pInit Then",
+			"        Exception.InvalidOperationException vbNullString, \"This object is already initialized\"",
+			"    End If",
+			"    Exception.NotImplementedException vbNullString, ClassName & \".\" & MethodName ",
+			"",
+			"    pInit = True",
+			"",
+			"End Sub",
+			"",
+			"",
+			"Private Sub CheckInit()",
+			"",
+			"    If pInit = False Then",
+			"        Exception.InvalidOperationException vbNullString, \"This object is not initialized.\" & ClassName & \".CheckInit\"",
+			"    End if",
+			"",
+			"End Sub"
+
+		],
+		"description": "Creates if-statement which checks if object is nothing."
+	},
+}
